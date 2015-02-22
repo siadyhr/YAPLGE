@@ -3,11 +3,7 @@ local YAPLGE = {
 }
 
 function YAPLGE.draw.notify(text,duration,dt,key)
-	if time then
-		time=time+dt
-	else
-		time=0
-	end
+	time = if time then time+dt else 0 end
 	stringLength=stringLength or 0
 	localtext=localtext or ""
 	if time > stringLength * duration/string.len(text) then
