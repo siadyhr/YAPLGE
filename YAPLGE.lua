@@ -1,6 +1,8 @@
-local YAPLGE = {}
+local YAPLGE = {
+	draw={}
+}
 
-function YAPLGE.notify(text,duration,dt,key)
+function YAPLGE.draw.notify(text,duration,dt,key)
 	if time then
 		time=time+dt
 	else
