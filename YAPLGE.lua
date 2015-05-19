@@ -11,8 +11,8 @@ function YAPLGE.importTileMap(file,tileSize)
 
 	for i = 1, quadsV do
 		for j = 1, quadsH do
-			print((i*quadsH)-quadsH + j)
-			quads[(i*quadsH)-quadsH + j] = love.graphics.newQuad((i-1)*tileSize , (j-1)*tileSize , tileSize , tileSize , tileMap:getWidth() , tileMap:getWidth())
+--			print((i*quadsH)-quadsH + j)
+			quads[(i*quadsH)-quadsH + j] = love.graphics.newQuad((j-1)*tileSize ,  (i-1)*tileSize , tileSize , tileSize , tileMap:getDimensions())
 		end
 	end
 	
