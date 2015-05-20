@@ -19,6 +19,21 @@ function YAPLGE.importTileMap(file,tileSize)
 	return quads
 end
 
+function YAPLGE.stringToTable(mapString, translation)
+
+end
+
+function YAPLGE.drawTable(map, image, quads, tileSize, x, y)
+--	if not x then x = 0 end
+--	if not y then y = 0 end
+	
+	for row=1 , #map do
+		for column=1 , #map[row] do
+			love.graphics.draw(image, quads[map[row][column]], x+(column-1)*tileSize,y+(row-1)*tileSize)
+		end
+	end
+end
+
 function YAPLGE.draw.notify(text,duration,dt,key)
 	time = time+dt
 	stringLength=stringLength or 0
