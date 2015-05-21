@@ -3,10 +3,12 @@ atime=0
 
 function love.load()
 	i = 1
-	mapTable ={	{ 1 , 2 , 3},
-		{ 3 , 1 , 2},
-		{ 2 , 3 , 1}
-	}
+	mapTable =
+		{	
+			{ 1 , 2 , 3},
+			{ 3 , 1 , 2},
+			{ 2 , 3 , 1}
+		}
 end
 
 function love.update(dt)
@@ -14,8 +16,6 @@ function love.update(dt)
 	atime=atime+dt
 	tileMapTable = YAPLGE.importTileMap('tilemap2.png' ,16)
 	tileMap = love.graphics.newImage('tilemap2.png')
---	i=i+1
---	if i == #tileMapTable then i = 1 end
 end
 function love.draw()
 	for i=1 , #tileMapTable do
