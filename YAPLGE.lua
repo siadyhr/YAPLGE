@@ -3,35 +3,48 @@ local YAPLGE = {
 }
 local time=0
 
-function YAPLGE.importTileMap(file,tileSize)
+function YAPLGE.importTileMap(file,tileSize,translation)
 	local tileMap = love.graphics.newImage(file)
 	local quads = {}
-	quadsH = tileMap:getWidth()/tileSize	-- Number of horisontal quads
-	quadsV = tileMap:getHeight()/tileSize	-- Number of vertical quads
+	local kat   = {}
+	local width, height = tileMap:getDimensions()
+	quadsH = width/tileSize		-- Number of horisontal quads
+	quadsV = height/tileSize	-- Number of vertical quads
+	for i = 1, quadsV*quadsH do
+		quads[i] = {}
+	end
 
 	for i = 1, quadsV do
 		for j = 1, quadsH do
-			quads[(i*quadsH)-quadsH + j] = love.graphics.newQuad((j-1)*tileSize ,  (i-1)*tileSize , tileSize , tileSize , tileMap:getDimensions())
+			local number = (i*quadsH)-quadsH+j
+			quads[number] = { translation[number] , (j-1)*tileSize , (i-1)*tileSize}
 		end
 	end
 
-	print(type(quads))
-	
-	return quads
+	for _,quadInfo in ipairs(quads) do
+--		kat[quadInfo[1]] = love.graphics.newQuad(quadInfo[2], quadInfo[3], tileSize, tileSize, width, height)
+		kat[quadInfo[1]] = love.graphics.newQuad(quadInfo[2] ,quadInfo[3], tileSize, tileSize, width, height)
+	end
+
+--	love.graphics.draw(love.graphics.newImage('tilemap2.png'), kat[1], 0 ,0)
+
+	return kat
 end
 
 function YAPLGE.stringToTable(mapString, translation)
 	local mapTable = {}
-	local row,column = 1,1
 	local width = #(mapString:match("[^\n]+"))
 	for i = 1, width do mapTable[i] = {} end
+
+	local rowindex,columnindex = 1,1
+
 	for i in mapString:gmatch("[^\n]+") do
 		column=1
 		for character in i:gmatch(".") do
-			mapTable[column][row] = character
+			mapTable[column][rowindex] = character
 			column = column + 1
 		end
-		row = row + 1
+		rowindex = rowindex + 1
 	end
 	return mapTable
 end
@@ -39,10 +52,10 @@ end
 function YAPLGE.drawTable(map, image, quads, tileSize, x, y)
 	if not x then x = 0 end
 	if not y then y = 0 end
-	
+
 	for row=1 , #map do
 		for column=1 , #map[row] do
-			love.graphics.draw(image, quads[map[row][column]], x+(column-1)*tileSize,y+(row-1)*tileSize)
+--			love.graphics.draw(image, quads[map[row][column]], x+(column-1)*tileSize,y+(row-1)*tileSize)
 		end
 	end
 end

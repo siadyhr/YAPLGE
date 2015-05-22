@@ -2,7 +2,7 @@ YAPLGE = require "YAPLGE"
 atime=0
 
 function love.load()
-	i = 1
+	tileSize=16
 	mapTable =
 		{	
 			{ 1 , 2 , 3},
@@ -10,32 +10,26 @@ function love.load()
 			{ 2 , 3 , 1}
 		}
 	mapString = [[
-		#%-
-		-#%
-		%-#
+abc
+cab
+bca
 	]]
-	translation = { "#" , "%" , "-" }
+	translation = { "a" , "b" , "c", "d", "e", "f", "g", "h"}
 	kat = YAPLGE.stringToTable(mapString,translation)
 end
 
 function love.update(dt)
 	deltatime=dt
 	atime=atime+dt
-	tileMapTable = YAPLGE.importTileMap('tilemap2.png' ,16)
+	tileMapTable = YAPLGE.importTileMap('tilemap2.png' ,tileSize, translation)
 	tileMap = love.graphics.newImage('tilemap2.png')
 end
 function love.draw()
-	for i=1 , #tileMapTable do
-		love.graphics.draw(tileMap,tileMapTable[tonumber(i)],16*i-16,100)
+	for i,column in ipairs(kat) do
+		for j,char in ipairs(column) do
+			local x,y = (i-1)*tileSize, (j-1)*tileSize
+			print(tileMapTable[char])
+			love.graphics.draw(tileMap, tileMapTable[char], x, y)
+		end
 	end
-	YAPLGE.drawTable(mapTable, tileMap, tileMapTable, 16,100,100)
-	--YAPLGE.drawTable(kat, tileMap, tileMapTable, 16, 200, 200)
-	--[[ if atime < 2 then
-		YAPLGE.draw.notify("abcdefghijklmnopq",2,deltatime," ")
-	elseif atime > 2 and atime < 2.1 then
-		YAPLGE.draw.notifyClear()
-	elseif atime > 2.1 then
-		YAPLGE.draw.notify("rstuvwxyz12345",2,deltatime," ")
-	end --]]
-
 end
