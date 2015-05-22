@@ -13,7 +13,7 @@ function love.load()
 abc
 cab
 bca
-	]]
+]]
 	translation = { "a" , "b" , "c", "d", "e", "f", "g", "h"}
 	kat = YAPLGE.stringToTable(mapString,translation)
 end
@@ -28,7 +28,6 @@ function love.draw()
 	for i,column in ipairs(kat) do
 		for j,char in ipairs(column) do
 			local x,y = (i-1)*tileSize, (j-1)*tileSize
-			print(tileMapTable[char])
 			love.graphics.draw(tileMap, tileMapTable[char], x, y)
 		end
 	end
