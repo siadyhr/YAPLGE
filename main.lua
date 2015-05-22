@@ -9,6 +9,13 @@ function love.load()
 			{ 3 , 1 , 2},
 			{ 2 , 3 , 1}
 		}
+	mapString = [[
+		#%-
+		-#%
+		%-#
+	]]
+	translation = { "#" , "%" , "-" }
+	kat = YAPLGE.stringToTable(mapString,translation)
 end
 
 function love.update(dt)
@@ -22,6 +29,7 @@ function love.draw()
 		love.graphics.draw(tileMap,tileMapTable[tonumber(i)],16*i-16,100)
 	end
 	YAPLGE.drawTable(mapTable, tileMap, tileMapTable, 16,100,100)
+	--YAPLGE.drawTable(kat, tileMap, tileMapTable, 16, 200, 200)
 	--[[ if atime < 2 then
 		YAPLGE.draw.notify("abcdefghijklmnopq",2,deltatime," ")
 	elseif atime > 2 and atime < 2.1 then

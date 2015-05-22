@@ -14,12 +14,26 @@ function YAPLGE.importTileMap(file,tileSize)
 			quads[(i*quadsH)-quadsH + j] = love.graphics.newQuad((j-1)*tileSize ,  (i-1)*tileSize , tileSize , tileSize , tileMap:getDimensions())
 		end
 	end
+
+	print(type(quads))
 	
 	return quads
 end
 
 function YAPLGE.stringToTable(mapString, translation)
-
+	local mapTable = {}
+	local row,column = 1,1
+	local width = #(mapString:match("[^\n]+"))
+	for i = 1, width do mapTable[i] = {} end
+	for i in mapString:gmatch("[^\n]+") do
+		column=1
+		for character in i:gmatch(".") do
+			mapTable[column][row] = character
+			column = column + 1
+		end
+		row = row + 1
+	end
+	return mapTable
 end
 
 function YAPLGE.drawTable(map, image, quads, tileSize, x, y)
