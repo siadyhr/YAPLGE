@@ -1,12 +1,16 @@
 local YAPLGE = {
-	draw={}
+	draw={} --WTF does this do, and why is it there? TODO
 }
 local time=0
 
 function YAPLGE.importTileMap(file,tileSize,translation)
+	--[[
+	Converts an image file with a translation table
+	into a table containing { translation, x, y}
+	--]]
 	local tileMap = love.graphics.newImage(file)
 	local quads = {}
-	local kat   = {}
+	local realQuadInfo   = {}
 	local width, height = tileMap:getDimensions()
 	quadsH = width/tileSize		-- Number of horisontal quads
 	quadsV = height/tileSize	-- Number of vertical quads
@@ -22,16 +26,13 @@ function YAPLGE.importTileMap(file,tileSize,translation)
 	end
 
 	for _,quadInfo in ipairs(quads) do
---		kat[quadInfo[1]] = love.graphics.newQuad(quadInfo[2], quadInfo[3], tileSize, tileSize, width, height)
-		kat[quadInfo[1]] = love.graphics.newQuad(quadInfo[2] ,quadInfo[3], tileSize, tileSize, width, height)
+		realQuadInfo[quadInfo[1]] = love.graphics.newQuad(quadInfo[2] ,quadInfo[3], tileSize, tileSize, width, height)
 	end
 
---	love.graphics.draw(love.graphics.newImage('tilemap2.png'), kat[1], 0 ,0)
-
-	return kat
+	return realQuadInfo
 end
 
-function YAPLGE.stringToTable(mapString, translation)
+function YAPLGE.stringToTable(mapString)
 	local mapTable = {}
 	local width = #(mapString:match("[^\n]+"))
 	for i = 1, width do mapTable[i] = {} end
@@ -49,13 +50,14 @@ function YAPLGE.stringToTable(mapString, translation)
 	return mapTable
 end
 
-function YAPLGE.drawTable(map, image, quads, tileSize, x, y)
-	if not x then x = 0 end
-	if not y then y = 0 end
+function YAPLGE.drawTable(image, stringTable, tileSize, hund, startX, startY)
+	if not startX then startX = 0 end
+	if not startY then startY = 0 end
 
-	for row=1 , #map do
-		for column=1 , #map[row] do
---			love.graphics.draw(image, quads[map[row][column]], x+(column-1)*tileSize,y+(row-1)*tileSize)
+	for i,column in ipairs(stringTable) do
+		for j,char in ipairs(column) do
+			local x,y = (i-1)*tileSize, (j-1)*tileSize
+			love.graphics.draw(image, hund[char], x,y)
 		end
 	end
 end

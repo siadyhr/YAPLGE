@@ -17,20 +17,15 @@ function love.load()
 #####
 ]]
 	translation = { " " , "#" , "+", "o", "e", "f", "#", "h"}
-	kat = YAPLGE.stringToTable(mapString,translation)
+	quadInfo = YAPLGE.importTileMap('tilemap2.png' ,tileSize, translation)
+	tileMapTable = YAPLGE.stringToTable(mapString)
+	tileMap = love.graphics.newImage('tilemap2.png')
 end
 
 function love.update(dt)
 	deltatime=dt
 	atime=atime+dt
-	tileMapTable = YAPLGE.importTileMap('tilemap2.png' ,tileSize, translation)
-	tileMap = love.graphics.newImage('tilemap2.png')
 end
 function love.draw()
-	for i,column in ipairs(kat) do
-		for j,char in ipairs(column) do
-			local x,y = (i-1)*tileSize, (j-1)*tileSize
-			love.graphics.draw(tileMap, tileMapTable[char], x, y)
-		end
-	end
+	YAPLGE.drawTable(tileMap, tileMapTable, 16, quadInfo)
 end
