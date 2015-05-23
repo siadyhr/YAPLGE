@@ -10,11 +10,13 @@ function love.load()
 			{ 2 , 3 , 1}
 		}
 	mapString = [[
-abc
-cab
-bca
+#####
+#   #
+#+ +#
+#+++#
+#####
 ]]
-	translation = { "a" , "b" , "c", "d", "e", "f", "g", "h"}
+	translation = { " " , "#" , "+", "o", "e", "f", "#", "h"}
 	kat = YAPLGE.stringToTable(mapString,translation)
 end
 
