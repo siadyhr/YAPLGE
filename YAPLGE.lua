@@ -50,14 +50,15 @@ function YAPLGE.stringToTable(mapString)
 	return mapTable
 end
 
-function YAPLGE.drawTable(image, stringTable, tileSize, hund, startX, startY)
+function YAPLGE.drawTable(image, stringTable, tileSize, hund, startX, startY, scale)
 	if not startX then startX = 0 end
 	if not startY then startY = 0 end
+	if not scale then scale = 0 end
 
 	for i,column in ipairs(stringTable) do
 		for j,char in ipairs(column) do
-			local x,y = (i-1)*tileSize, (j-1)*tileSize
-			love.graphics.draw(image, hund[char], x,y)
+			local x,y = (i-1)*tileSize*scale, (j-1)*tileSize*scale
+			love.graphics.draw(image, hund[char], x,y, 0, scale, scale)
 		end
 	end
 end
