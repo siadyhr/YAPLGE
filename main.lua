@@ -41,7 +41,9 @@ function love.update(dt)
 	if love.keyboard.isDown("left") then
 		player.x = player.x - player.speed*dt
 	end
+	print(YAPLGE.getTile(player.x+player.image:getHeight(), player.y+player.image:getWidth()/2, 16, tileMapTable, 4))
 end
 function love.draw()
 	YAPLGE.drawTable(tileMap, tileMapTable, 16, quadInfo, 0,0, 4)
+	love.graphics.draw(player.image, player.x, player.y)
 end
