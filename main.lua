@@ -16,9 +16,9 @@ function love.load()
 			{ 2 , 3 , 1}
 		}
 	mapString = [[
-#+  +#
-##++##
-######
++#o
+o+#
+#o+
 ]]
 	translation = { "#" , " " , "+", "o", "e", "f", "i", "h"}
 	quadInfo = YAPLGE.importTileMap('tilemap.png' ,tileSize, translation)
@@ -41,7 +41,7 @@ function love.update(dt)
 	if love.keyboard.isDown("left") then
 		player.x = player.x - player.speed*dt
 	end
-	print(YAPLGE.getTile(player.x+player.image:getHeight(), player.y+player.image:getWidth()/2, 16, tileMapTable, 4))
+	print(YAPLGE.getTile(player.x+player.image:getWidth(), player.y+player.image:getHeight(), 16, tileMapTable, 4))
 end
 function love.draw()
 	YAPLGE.drawTable(tileMap, tileMapTable, 16, quadInfo, 0,0, 4)
