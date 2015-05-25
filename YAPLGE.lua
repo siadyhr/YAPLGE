@@ -53,12 +53,12 @@ end
 function YAPLGE.drawTable(image, stringTable, tileSize, hund, startX, startY, scale)
 	if not startX then startX = 0 end
 	if not startY then startY = 0 end
-	if not scale then scale = 0 end
+	if not scale then scale = 1 end
 
 	for i,column in ipairs(stringTable) do
 		for j,char in ipairs(column) do
 			local x,y = (i-1)*tileSize*scale, (j-1)*tileSize*scale
-			love.graphics.draw(image, hund[char], x,y, 0, scale, scale)
+			love.graphics.draw(image, hund[char], x,y, 0, 0.5*scale) -- TODO: Why is *0.5 needed? It probably has something to do with how love.graphics's scale thingy works…
 		end
 	end
 end
@@ -74,10 +74,7 @@ function YAPLGE.getTile(x, y, tileSize, map, scale)
 	tile.x = math.floor(x/(tileSize*scale))
 	tile.y = math.floor(y/(tileSize*scale))
 
-	if tile.x == 0 then tile.x = 1 end
-	if tile.y == 0 then tile.y = 1 end
-
-	tile.character = map[tile.x][tile.y]
+	tile.character = map[tile.x+1][tile.y+1]
 
 	return tile.character
 end
