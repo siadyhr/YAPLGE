@@ -57,8 +57,8 @@ function YAPLGE.drawTable(image, stringTable, tileSize, hund, startX, startY, sc
 
 	for i,column in ipairs(stringTable) do
 		for j,char in ipairs(column) do
-			local x,y = (i-1)*tileSize*scale, (j-1)*tileSize*scale
-			love.graphics.draw(image, hund[char], x,y, 0, 0.5*scale) -- TODO: Why is *0.5 needed? It probably has something to do with how love.graphics's scale thingy works…
+			local x,y = (i-1)*tileSize*2*scale, (j-1)*tileSize*2*scale
+			love.graphics.draw(image, hund[char], x,y, 0, scale) -- TODO: Why is *2 needed? It probably has something to do with how löve.graphics's scale thingy works…
 		end
 	end
 end
