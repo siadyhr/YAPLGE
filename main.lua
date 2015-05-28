@@ -40,7 +40,7 @@ function love.update(dt)
 		player.x = player.x - player.speed*dt
 	end
 
-	if player.y + player.height > mapHeight then --TODO: Do something better than 128 by getting width of table or something
+	if player.y + player.height > mapHeight then
 		maps.row = maps.row + 1
 		player.y = 0
 		tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
@@ -48,7 +48,7 @@ function love.update(dt)
 	if player.y < 0 then
 		if maps.row ~= 1 then
 			maps.row = maps.row - 1
-			player.y = 128 --Generalize
+			player.y = mapHeight - player.height - 1
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 		end
 	end
@@ -60,7 +60,7 @@ function love.update(dt)
 	if player.x < 0 then
 		if maps.column ~= 1 then 
 			maps.column = maps.column - 1
-			player.x = 128 --Generalize
+			player.x = mapWidth-player.width-1 -- -1 since stuff seems to get confused
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 		end
 	end
