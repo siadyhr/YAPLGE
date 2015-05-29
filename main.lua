@@ -1,31 +1,36 @@
 YAPLGE = require "YAPLGE"
 maps = require "maps"
-atime=0
+atime = 0
 
 function love.load()
 	player = {
-		x=0,
-		y=0,
-		speed=100,
+		x = 0,
+		y = 0,
+		speed = 100,
 		image = love.graphics.newImage('player.png'),
 	}
 	player.width,player.height = player.image:getDimensions()
-	tileSize=32
-	scale=2
+	tileSize = 32
+	scale = 2
 	mapWidth, mapHeight = 0,0
 
-translation = { "#" , " " , "+", "o", "e", "f", "i", "h"}
-	quadInfo = YAPLGE.importTileMap('tilemap.png' ,tileSize, translation)
+translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
+	quadInfo = YAPLGE.importTileMap('tilemap.png', tileSize, translation)
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 	tileMap = love.graphics.newImage('tilemap.png')
+
+	mapWidth = scale * #tileMapTable[1] * tileSize
+	mapHeight = scale * #tileMapTable * tileSize
+	love.window.setMode( mapWidth, mapHeight )
+	love.window.setTitle("YAPLGE test")
 end
 
 function love.update(dt)
-	deltatime=dt
-	atime=atime+dt
-	mapWidth = scale * #tileMapTable[1]*tileSize
-	mapHeight = scale * #tileMapTable * tileSize
+	deltatime = dt
+	atime = atime + dt
+	mapWidth	= scale * #tileMapTable[1] * tileSize
+	mapHeight	= scale * #tileMapTable * tileSize
 
 	if love.keyboard.isDown("up") then
 		player.y = player.y - player.speed*dt
@@ -60,12 +65,12 @@ function love.update(dt)
 	if player.x < 0 then
 		if maps.column ~= 1 then 
 			maps.column = maps.column - 1
-			player.x = mapWidth-player.width-1 -- -1 since stuff seems to get confused
+			player.x = mapWidth - player.width - 1 -- -1 since stuff seems to get confused
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 		end
 	end
 
-	print(YAPLGE.getTile(player.x+player.width, player.y+player.height, tileSize, tileMapTable, scale))
+	print(YAPLGE.getTile(player.x + player.width, player.y + player.height, tileSize, tileMapTable, scale))
 end
 
 function love.draw()
