@@ -15,7 +15,7 @@ function love.load()
 	mapWidth, mapHeight = 0,0
 
 translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
-	quadInfo = YAPLGE.importTileMap('tilemap.png', tileSize, translation)
+	quadInfo = YAPLGE.import.TileMap('tilemap.png', tileSize, translation)
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 	tileMap = love.graphics.newImage('tilemap.png')
@@ -74,6 +74,6 @@ function love.update(dt)
 end
 
 function love.draw()
-	YAPLGE.drawTable(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
+	YAPLGE.draw.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	love.graphics.draw(player.image, player.x, player.y)
 end
