@@ -3,22 +3,30 @@ maps = require "maps"
 atime = 0
 
 function love.load()
+	stime = love.timer.getTime()
+
 	player = {
 		x = 0,
 		y = 0,
 		speed = 100,
 		image = love.graphics.newImage('player.png'),
+		animationImage = love.graphics.newImage('playeranim.png'),
+		animationTranslation = { "a", "b", "c", "d" } --We shouldn't need to do this, but the current import function is bad
 	}
+
+	player.quadInfo = YAPLGE.import.TileMap('playeranim.png', 32, 64, player.animationTranslation)
+	
 	player.width,player.height = player.image:getDimensions()
 	tileSize = 32
 	scale = 2
 	mapWidth, mapHeight = 0,0
 
-translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
-	quadInfo = YAPLGE.import.TileMap('tilemap.png', tileSize, translation)
+	translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
+	quadInfo = YAPLGE.import.TileMap('tilemap.png', tileSize, tileSize, translation)
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 	tileMap = love.graphics.newImage('tilemap.png')
+
 
 	mapWidth = scale * #tileMapTable[1] * tileSize
 	mapHeight = scale * #tileMapTable * tileSize
@@ -76,4 +84,6 @@ end
 function love.draw()
 	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	love.graphics.draw(player.image, player.x, player.y)
+	
+	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.animationTranslation, player.quadInfo, love.timer.getTime() - stime, 0.2))
 end
