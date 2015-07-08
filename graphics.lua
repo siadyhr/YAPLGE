@@ -1,8 +1,8 @@
-local draw = {
+local graphics = {
 }
 
 
-function draw.table(image, stringTable, tileSize, hund, startX, startY, scale)
+function graphics.table(image, stringTable, tileSize, hund, startX, startY, scale)
 	if not startX then startX = 0 end
 	if not startY then startY = 0 end
 	if not scale then scale = 1 end
@@ -15,7 +15,7 @@ function draw.table(image, stringTable, tileSize, hund, startX, startY, scale)
 	end
 end
 
-function draw.notify(text,duration,dt,key)
+function graphics.notify(text,duration,dt,key)
 	time = time+dt
 	stringLength=stringLength or 0
 --	localtext=localtext
@@ -28,13 +28,13 @@ function draw.notify(text,duration,dt,key)
 		if stringLength < string.len(text) then
 			stringLength = string.len(text)
 		elseif stringLenth == string.len(text) then
-			YAPLGE.draw.notifyClear()
+			YAPLGE.graphics.notifyClear() --This is probably not gonna work, but we need to rewrite it anyways
 		end
 	end
 end
 
-function draw.notifyClear()
+function graphics.notifyClear()
 	time,stringLength,localtext=0,0,""
 end
 
-return draw
+return graphics

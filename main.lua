@@ -70,10 +70,10 @@ function love.update(dt)
 		end
 	end
 
-	print(YAPLGE.getTile(player.x + player.width, player.y + player.height, tileSize, tileMapTable, scale))
+--	print(YAPLGE.getTile(player.x + player.width, player.y + player.height, tileSize, tileMapTable, scale))
 end
 
 function love.draw()
-	YAPLGE.draw.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
+	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	love.graphics.draw(player.image, player.x, player.y)
 end

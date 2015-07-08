@@ -1,5 +1,5 @@
 local YAPLGE = {
-	draw = require "draw",
+	graphics = require "graphics",
 	import = require "import"
 }
 local time=0
