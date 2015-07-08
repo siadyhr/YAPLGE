@@ -1,5 +1,4 @@
 local import = {
-	draw={} --WTF does this do, and why is it there? TODO
 }
 local time=0
 
