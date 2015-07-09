@@ -11,10 +11,10 @@ function love.load()
 		speed = 100,
 		image = love.graphics.newImage('player.png'),
 		animationImage = love.graphics.newImage('playeranim.png'),
-		animationTranslation = { "a", "b", "c", "d" } --We shouldn't need to do this, but the current import function is bad
 	}
 
-	player.quadInfo = YAPLGE.import.TileMap('playeranim.png', 32, 64, player.animationTranslation)
+--	player.quadInfo = YAPLGE.import.TileMap('playeranim.png', 32, 64, player.animationTranslation)
+	player.quadInfo = YAPLGE.import.simpleTileMap('playeranim.png', 32, 64)
 	
 	player.width,player.height = player.image:getDimensions()
 	tileSize = 32
@@ -83,7 +83,6 @@ end
 
 function love.draw()
 	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
-	love.graphics.draw(player.image, player.x, player.y)
 	
-	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.animationTranslation, player.quadInfo, love.timer.getTime() - stime, 0.2))
+	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)
 end

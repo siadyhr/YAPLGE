@@ -33,10 +33,9 @@ function graphics.notify(text,duration,dt,key)
 	end
 end
 
-function graphics.animate(translation, quadInfo, nowTime, diffTime)
-	-- imageFile, table from YAPLGE.import.TileMap, time between updates in seconds
-	
-	currentImage = quadInfo[translation[math.floor(nowTime/diffTime % 4 + 1)]]
+function graphics.animate(quadInfo, nowTime, diffTime)
+	-- imageFile, table from YAPLGE.import.simpleTileMap, time between updates in seconds
+	currentImage = quadInfo[math.floor(nowTime/diffTime % 4 + 1)]
 	return(currentImage)
 end
 

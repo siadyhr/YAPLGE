@@ -7,7 +7,7 @@ function import.TileMap(file,tileSizeX,tileSizeY,translation)
 	Converts an image file with a translation table
 	into a table containing { translation, x, y}
 	--]]
-	local tileMap = love.graphics.newImage(file)
+	local tileMap = love.graphics.newImage(file) --TODO: optimization, so we can use imported images instead of files here
 	local quads = {}
 	local realQuadInfo   = {}
 	local width, height = tileMap:getDimensions()
@@ -29,6 +29,26 @@ function import.TileMap(file,tileSizeX,tileSizeY,translation)
 	end
 
 	return realQuadInfo
+end
+
+function import.simpleTileMap(file,tileSizeX,tileSizeY)
+	--[[
+	Converts an image file into a table containing quads of the form
+	--]]
+	local tileMap = love.graphics.newImage(file)
+	local width, height = tileMap:getDimensions()
+	local quads = {}
+
+	quadsX = width/tileSizeX
+	quadsY = height/tileSizeY
+
+	for row = 1, quadsY do
+		for column = 1, quadsX do
+			local number = (quadsX * (row-1)) + column
+			quads[number] = love.graphics.newQuad((column-1) * tileSizeX, (row-1) * tileSizeY, tileSizeX, tileSizeY, width, height)
+		end
+	end
+	return quads
 end
 
 return import
