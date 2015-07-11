@@ -14,7 +14,11 @@ function love.load()
 		animationImage = love.graphics.newImage(imagepath .. 'playeranim.png'),
 	}
 
---	player.quadInfo = YAPLGE.import.TileMap('playeranim.png', 32, 64, player.animationTranslation)
+	mons = {
+		monlist = require "monlist",
+		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/"),
+	} 
+
 	player.quadInfo = YAPLGE.import.simpleTileMap(imagepath .. 'playeranim.png', 32, 64)
 	
 	player.width,player.height = player.image:getDimensions()
@@ -86,4 +90,5 @@ function love.draw()
 	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	
 	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)
+	love.graphics.draw(mons.redmon.img)
 end
