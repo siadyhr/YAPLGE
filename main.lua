@@ -83,7 +83,10 @@ function love.update(dt)
 		end
 	end
 
---	print(YAPLGE.getTile(player.x + player.width, player.y + player.height, tileSize, tileMapTable, scale))
+	if love.timer.getTime() - stime > 2 and mons.redmon.evolvesTo then 
+		mons.redmon = YAPLGE.mons.levelUp(mons.monlist, mons.redmon, "graphics/mons")
+	end
+
 end
 
 function love.draw()
