@@ -3,18 +3,19 @@ maps = require "maps"
 atime = 0
 
 function love.load()
+	imagepath = 'graphics/'
 	stime = love.timer.getTime()
 
 	player = {
 		x = 0,
 		y = 0,
 		speed = 100,
-		image = love.graphics.newImage('player.png'),
-		animationImage = love.graphics.newImage('playeranim.png'),
+		image = love.graphics.newImage(imagepath .. 'player.png'),
+		animationImage = love.graphics.newImage(imagepath .. 'playeranim.png'),
 	}
 
 --	player.quadInfo = YAPLGE.import.TileMap('playeranim.png', 32, 64, player.animationTranslation)
-	player.quadInfo = YAPLGE.import.simpleTileMap('playeranim.png', 32, 64)
+	player.quadInfo = YAPLGE.import.simpleTileMap(imagepath .. 'playeranim.png', 32, 64)
 	
 	player.width,player.height = player.image:getDimensions()
 	tileSize = 32
@@ -22,10 +23,10 @@ function love.load()
 	mapWidth, mapHeight = 0,0
 
 	translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
-	quadInfo = YAPLGE.import.TileMap('tilemap.png', tileSize, tileSize, translation)
+	quadInfo = YAPLGE.import.TileMap(imagepath .. 'tilemap.png', tileSize, tileSize, translation)
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
-	tileMap = love.graphics.newImage('tilemap.png')
+	tileMap = love.graphics.newImage(imagepath .. 'tilemap.png')
 
 
 	mapWidth = scale * #tileMapTable[1] * tileSize
