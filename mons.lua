@@ -3,11 +3,11 @@ mons = {}
 function mons.newMon(monlist, nameIn, imgpath, abilitiesIn, abilityList, xpIn, levelIn, filetype)
 	
 	displayName = monlist.nameIn
-	if not filetype then filetype = "png" end
+	filetype = filetype or  "png"
 	newImg = love.graphics.newImage(imgpath .. nameIn .. "." .. filetype)
 	if not abilitiesIn then newAbilities = {} else abilities = abilitiesIn end --TODO: use abilityList
-	if xpIn then newXp=xpIn else newXp=0 end
-	if levelIn then newLevel=levelIn else newLevel=1 end
+	newXp = xpIn or 0
+	newLevel = 1 or levelIn
 
 	local mon = {
 		name=nameIn,

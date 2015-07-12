@@ -3,9 +3,9 @@ local graphics = {
 
 
 function graphics.table(image, stringTable, tileSize, hund, startX, startY, scale)
-	if not startX then startX = 0 end
-	if not startY then startY = 0 end
-	if not scale then scale = 1 end
+	startX = startX or 0
+	startY = startY or 0
+	scale = scale or settings.scale or 1
 
 	for i,column in ipairs(stringTable) do
 		for j,char in ipairs(column) do

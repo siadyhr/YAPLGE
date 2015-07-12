@@ -2,7 +2,7 @@ local import = {
 }
 local time=0
 
-function import.TileMap(file,tileSizeX,tileSizeY,translation)
+function import.TileMap(file,translation,settings,tileSizeXin,tileSizeYin)
 	--[[
 	Converts an image file with a translation table
 	into a table containing { translation, x, y}
@@ -11,8 +11,16 @@ function import.TileMap(file,tileSizeX,tileSizeY,translation)
 	local quads = {}
 	local realQuadInfo   = {}
 	local width, height = tileMap:getDimensions()
+
+--	if tileSizeXin then tileSizeX = tileSizeXin else tileSizeX = settings.tileSizeX end
+--	if tileSizeYin then tileSizeY = tileSizeYin else tileSizeY = settings.tileSizeY end
+	
+	tileSizeX = tileSizeXin or settings.tileSizeX
+	tileSizeY = tileSizeYin or settings.tileSizeY
+
 	quadsH = width/tileSizeX		-- Number of horisontal quads
 	quadsV = height/tileSizeY	-- Number of vertical quads
+
 	for i = 1, quadsV*quadsH do
 		quads[i] = {}
 	end
@@ -31,13 +39,18 @@ function import.TileMap(file,tileSizeX,tileSizeY,translation)
 	return realQuadInfo
 end
 
-function import.simpleTileMap(file,tileSizeX,tileSizeY)
+function import.simpleTileMap(file,settings,tileSizeXin,tileSizeYin)
 	--[[
 	Converts an image file into a table containing quads of the form
 	--]]
 	local tileMap = love.graphics.newImage(file)
 	local width, height = tileMap:getDimensions()
 	local quads = {}
+
+	tileSizeX,tileSizeY = 32,64
+	tileSizeX = tileSizeXin or settings.tileSizeX
+	tileSizeY = tileSizeYin or settings.tileSizeY
+
 
 	quadsX = width/tileSizeX
 	quadsY = height/tileSizeY

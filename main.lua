@@ -6,6 +6,11 @@ function love.load()
 	imagepath = 'graphics/'
 	stime = love.timer.getTime()
 
+	settings = {
+		tileSizeX = 32,
+		tileSizeY = 32
+	}
+
 	player = {
 		x = 0,
 		y = 0,
@@ -19,22 +24,21 @@ function love.load()
 		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/"),
 	} 
 
-	player.quadInfo = YAPLGE.import.simpleTileMap(imagepath .. 'playeranim.png', 32, 64)
+	player.quadInfo = YAPLGE.import.simpleTileMap(imagepath .. 'playeranim.png', settings, 32, 64)
 	
 	player.width,player.height = player.image:getDimensions()
-	tileSize = 32
 	scale = 2
 	mapWidth, mapHeight = 0,0
 
 	translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
-	quadInfo = YAPLGE.import.TileMap(imagepath .. 'tilemap.png', tileSize, tileSize, translation)
+	quadInfo = YAPLGE.import.TileMap(imagepath .. 'tilemap.png', translation, settings)
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 	tileMap = love.graphics.newImage(imagepath .. 'tilemap.png')
 
 
-	mapWidth = scale * #tileMapTable[1] * tileSize
-	mapHeight = scale * #tileMapTable * tileSize
+	mapWidth = scale * #tileMapTable[1] * settings.tileSizeX
+	mapHeight = scale * #tileMapTable * settings.tileSizeX
 	love.window.setMode( mapWidth, mapHeight )
 	love.window.setTitle("YAPLGE test")
 end
@@ -42,8 +46,8 @@ end
 function love.update(dt)
 	deltatime = dt
 	atime = atime + dt
-	mapWidth	= scale * #tileMapTable[1] * tileSize
-	mapHeight	= scale * #tileMapTable * tileSize
+	mapWidth	= scale * #tileMapTable[1] * settings.tileSizeX
+	mapHeight	= scale * #tileMapTable * settings.tileSizeX
 
 	if love.keyboard.isDown("up") then
 		player.y = player.y - player.speed*dt
