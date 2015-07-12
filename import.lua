@@ -2,12 +2,12 @@ local import = {
 }
 local time=0
 
-function import.TileMap(file,translation,settings,tileSizeXin,tileSizeYin)
+function import.TileMap(settings)
 	--[[
 	Converts an image file with a translation table
 	into a table containing { translation, x, y}
 	--]]
-	local tileMap = love.graphics.newImage(file) --TODO: optimization, so we can use imported images instead of files here
+	local tileMap = love.graphics.newImage(settings.file) or love.graphics.newImage(settings.settings.file)--TODO: optimization, so we can use imported images instead of files here
 	local quads = {}
 	local realQuadInfo   = {}
 	local width, height = tileMap:getDimensions()
@@ -15,8 +15,8 @@ function import.TileMap(file,translation,settings,tileSizeXin,tileSizeYin)
 --	if tileSizeXin then tileSizeX = tileSizeXin else tileSizeX = settings.tileSizeX end
 --	if tileSizeYin then tileSizeY = tileSizeYin else tileSizeY = settings.tileSizeY end
 	
-	tileSizeX = tileSizeXin or settings.tileSizeX
-	tileSizeY = tileSizeYin or settings.tileSizeY
+	tileSizeX = settings.tileSizeX or settings.settings.tileSizeX
+	tileSizeY = settings.tileSizeY or settings.settings.tileSizeY
 
 	quadsH = width/tileSizeX		-- Number of horisontal quads
 	quadsV = height/tileSizeY	-- Number of vertical quads
@@ -39,17 +39,16 @@ function import.TileMap(file,translation,settings,tileSizeXin,tileSizeYin)
 	return realQuadInfo
 end
 
-function import.simpleTileMap(file,settings,tileSizeXin,tileSizeYin)
+function import.simpleTileMap(settings)
 	--[[
 	Converts an image file into a table containing quads of the form
 	--]]
-	local tileMap = love.graphics.newImage(file)
+	local tileMap = love.graphics.newImage(settings.file)
 	local width, height = tileMap:getDimensions()
 	local quads = {}
 
-	tileSizeX,tileSizeY = 32,64
-	tileSizeX = tileSizeXin or settings.tileSizeX
-	tileSizeY = tileSizeYin or settings.tileSizeY
+	tileSizeX = settings.tileSizeX or settings.settings.tileSizeX
+	tileSizeY = settings.tileSizeY or settings.settings.tileSizeY
 
 
 	quadsX = width/tileSizeX

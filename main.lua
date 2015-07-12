@@ -24,14 +24,14 @@ function love.load()
 		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/"),
 	} 
 
-	player.quadInfo = YAPLGE.import.simpleTileMap(imagepath .. 'playeranim.png', settings, 32, 64)
+	player.quadInfo = YAPLGE.import.simpleTileMap{file = imagepath .. 'playeranim.png', settings, tileSizeX=32, tileSizeY=64}
 	
 	player.width,player.height = player.image:getDimensions()
 	scale = 2
 	mapWidth, mapHeight = 0,0
 
 	translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
-	quadInfo = YAPLGE.import.TileMap(imagepath .. 'tilemap.png', translation, settings)
+	quadInfo = YAPLGE.import.TileMap{file=imagepath .. 'tilemap.png', translation=translation, settings=settings}
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
 	tileMap = love.graphics.newImage(imagepath .. 'tilemap.png')
@@ -49,18 +49,10 @@ function love.update(dt)
 	mapWidth	= scale * #tileMapTable[1] * settings.tileSizeX
 	mapHeight	= scale * #tileMapTable * settings.tileSizeX
 
-	if love.keyboard.isDown("up") then
-		player.y = player.y - player.speed*dt
-	end
-	if love.keyboard.isDown("down") then
-		player.y = player.y + player.speed*dt
-	end
-	if love.keyboard.isDown("right") then
-		player.x = player.x + player.speed*dt
-	end
-	if love.keyboard.isDown("left") then
-		player.x = player.x - player.speed*dt
-	end
+	if love.keyboard.isDown("up") then player.y = player.y - player.speed*dt end
+	if love.keyboard.isDown("down") then player.y = player.y + player.speed*dt end
+	if love.keyboard.isDown("right") then player.x = player.x + player.speed*dt end
+	if love.keyboard.isDown("left") then player.x = player.x - player.speed*dt end
 
 	if player.y + player.height > mapHeight then
 		maps.row = maps.row + 1
