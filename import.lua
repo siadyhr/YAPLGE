@@ -12,9 +12,6 @@ function import.TileMap(settings)
 	local realQuadInfo   = {}
 	local width, height = tileMap:getDimensions()
 
---	if tileSizeXin then tileSizeX = tileSizeXin else tileSizeX = settings.tileSizeX end
---	if tileSizeYin then tileSizeY = tileSizeYin else tileSizeY = settings.tileSizeY end
-	
 	tileSizeX = settings.tileSizeX or settings.settings.tileSizeX
 	tileSizeY = settings.tileSizeY or settings.settings.tileSizeY
 
