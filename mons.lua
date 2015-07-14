@@ -1,11 +1,11 @@
 mons = {}
 
-function mons.newMon(monlist, nameIn, imgpath, abilitiesIn, abilityList, xpIn, levelIn, filetype)
+function mons.newMon(monlist, nameIn, imgpath, abilitiesIn, xpIn, levelIn, filetype)
 	
-	displayName = monlist.nameIn
+	displayName = monlist[nameIn].displayName
 	filetype = filetype or  "png"
 	newImg = love.graphics.newImage(imgpath .. nameIn .. "." .. filetype)
-	if not abilitiesIn then newAbilities = {} else abilities = abilitiesIn end --TODO: use abilityList
+	newAbilities = abilitiesIn or {} --TODO: use --abilityList-- settings table instead
 	newXp = xpIn or 0
 	newLevel = 1 or levelIn
 
@@ -17,6 +17,7 @@ function mons.newMon(monlist, nameIn, imgpath, abilitiesIn, abilityList, xpIn, l
 		xp=newXp,
 		level=newLevel,
 		evolvesTo=monlist[nameIn].evolvesTo,
+		hp = monlist[nameIn].maxHP
 	}
 
 	return mon
@@ -29,7 +30,7 @@ function mons.levelUp(monlist, oldMon, imgpath)
 	if not filetype then filetype = "png" end
 	local newImg = love.graphics.newImage(imgpath .. "/" .. monlist[oldMon.name].evolvesTo .. "." .. filetype)
 	newAbilities = oldMon.abilities
-	if xpIn then newXp=xpIn else newXp=0 end -- should be oldMon.xpNeeded - oldMon.xp or something
+	if xpIn then newXp=xpIn else newXp=0 end -- should be oldMon.xpNeeded - oldMon.xp or something, but we need xpNeeded somewhere
 	newLevel = oldMon.level + 1
 
 	local newMon = {
@@ -39,12 +40,22 @@ function mons.levelUp(monlist, oldMon, imgpath)
 		abilities=newAbilities,
 		xp=newXp,
 		level=newLevel,
---		evolvesTo=monlist[nameIn].evolvesTo,
+		evolvesTo=monlist[nameIn].evolvesTo,
 	}
 
 	if not monlist[oldMon.name].evolvesTo then newMon = oldMon end
 
 	return newMon
+end
+
+function mons.attack(mon1, mon2, ability, abilityList)
+	hasAbility = false
+	for _,thing in pairs(mon1.abilities) do
+		if thing == ability then hasAbility = true end
+	end
+	if hasAbility then
+		mon2.hp = mon2.hp - abilityList[ability]["damage"]
+	end
 end
 
 return mons

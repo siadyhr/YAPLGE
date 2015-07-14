@@ -1,5 +1,6 @@
 YAPLGE = require "YAPLGE"
 maps = require "maps"
+abilityList = require "abilities"
 atime = 0
 
 function love.load()
@@ -21,7 +22,7 @@ function love.load()
 
 	mons = {
 		monlist = require "monlist",
-		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/"),
+		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/", {"boom", "boomboom"})
 	} 
 
 	player.quadInfo = YAPLGE.import.simpleTileMap{file = imagepath .. 'playeranim.png', settings, tileSizeX=32, tileSizeY=64}
@@ -39,8 +40,9 @@ function love.load()
 
 	mapWidth = scale * #tileMapTable[1] * settings.tileSizeX
 	mapHeight = scale * #tileMapTable * settings.tileSizeX
-	love.window.setMode( mapWidth, mapHeight )
+--	love.window.setMode( mapWidth, mapHeight ) -- X is not happy if you set the window in fullscreen with this on. TODO/FIXME
 	love.window.setTitle("YAPLGE test")
+	YAPLGE.mons.attack(mons.redmon, mons.redmon, "boomboomboom", abilityList)
 end
 
 function love.update(dt)
@@ -90,4 +92,3 @@ function love.draw()
 	
 	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)
 	love.graphics.draw(mons.redmon.img)
-end
