@@ -25,8 +25,11 @@ end
 
 function mons.levelUp(monlist, oldMon, imgpath)
 
-	local newDisplayName = monlist[oldMon.name].evolvesTo
-	newDisplayName = monlist[newDisplayName].displayname --TODO: This could probably be done better
+
+--	local newDisplayName = monlist[oldMon.name].evolvesTo
+--	newDisplayName = monlist[newDisplayName].displayname --TODO: This could probably be done better
+	newName = monlist[monlist[oldMon.name].evolvesTo].name
+	newDisplayName = monlist[newName].displayname
 	if not filetype then filetype = "png" end
 	local newImg = love.graphics.newImage(imgpath .. "/" .. monlist[oldMon.name].evolvesTo .. "." .. filetype)
 	newAbilities = oldMon.abilities
@@ -40,7 +43,7 @@ function mons.levelUp(monlist, oldMon, imgpath)
 		abilities=newAbilities,
 		xp=newXp,
 		level=newLevel,
-		evolvesTo=monlist[nameIn].evolvesTo,
+		evolvesTo=monlist[newName].evolvesTo
 	}
 
 	if not monlist[oldMon.name].evolvesTo then newMon = oldMon end

@@ -92,3 +92,4 @@ function love.draw()
 	
 	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)
 	love.graphics.draw(mons.redmon.img)
+end
