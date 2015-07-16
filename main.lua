@@ -4,38 +4,41 @@ abilityList = require "abilities"
 atime = 0
 
 function love.load()
-	imagepath = 'graphics/'
 	stime = love.timer.getTime()
 
 	settings = {
 		tileSizeX = 32,
-		tileSizeY = 32
+		tileSizeY = 32,
+
+		monlist = require "monlist",
+		imagepath = "graphics/",
+		filetype = "png"
 	}
 
 	player = {
 		x = 0,
 		y = 0,
 		speed = 100,
-		image = love.graphics.newImage(imagepath .. 'player.png'),
-		animationImage = love.graphics.newImage(imagepath .. 'playeranim.png'),
+		image = love.graphics.newImage(settings.imagepath .. 'player.png'),
+		animationImage = love.graphics.newImage(settings.imagepath .. 'playeranim.png'),
 	}
 
 	mons = {
-		monlist = require "monlist",
-		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/", {"boom", "boomboom"})
+--		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/", {"boom", "boomboom"})
+		redmon = YAPLGE.mons.newMon{settings = settings, name = "redmon", abilities = {"boom", "boomboom"}, imagepath = settings.imagepath .. "/mons/" }
 	} 
 
-	player.quadInfo = YAPLGE.import.simpleTileMap{file = imagepath .. 'playeranim.png', settings, tileSizeX=32, tileSizeY=64}
+	player.quadInfo = YAPLGE.import.simpleTileMap{file = settings.imagepath .. 'playeranim.png', settings, tileSizeX=32, tileSizeY=64}
 	
 	player.width,player.height = player.image:getDimensions()
 	scale = 2
 	mapWidth, mapHeight = 0,0
 
 	translation = { "#" , " " , "+", "o", "e", "f", "i", "h" }
-	quadInfo = YAPLGE.import.TileMap{file=imagepath .. 'tilemap.png', translation=translation, settings=settings}
+	quadInfo = YAPLGE.import.TileMap{file=settings.imagepath .. 'tilemap.png', translation=translation, settings=settings}
 	maps.row, maps.column = 1,1
 	tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
-	tileMap = love.graphics.newImage(imagepath .. 'tilemap.png')
+	tileMap = love.graphics.newImage(settings.imagepath .. 'tilemap.png')
 
 
 	mapWidth = scale * #tileMapTable[1] * settings.tileSizeX
@@ -82,12 +85,13 @@ function love.update(dt)
 	end
 
 	if love.timer.getTime() - stime > 2 and mons.redmon.evolvesTo then 
-		mons.redmon = YAPLGE.mons.levelUp(mons.monlist, mons.redmon, "graphics/mons")
+		mons.redmon = YAPLGE.mons.levelUp(settings.monlist, mons.redmon, "graphics/mons")
 	end
 
 end
 
 function love.draw()
+	print(mons.redmon.level)
 	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	
 	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)

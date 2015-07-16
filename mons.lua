@@ -1,52 +1,60 @@
 mons = {}
 
-function mons.newMon(monlist, nameIn, imgpath, abilitiesIn, xpIn, levelIn, filetype)
+--function mons.newMon(monlist, nameIn, imgpath, abilitiesIn, xpIn, levelIn, filetype)
+function mons.newMon(input)
+	monlist = input.monlist or input.settings.monlist
+	imgpath = input.imagepath or input.settings.imagepath or "./" --Does "./" even work?
+	filetype = input.filetype or input.settings.filetype or "png"
+	name = input.name
 	
-	displayName = monlist[nameIn].displayName
-	filetype = filetype or  "png"
-	newImg = love.graphics.newImage(imgpath .. nameIn .. "." .. filetype)
-	newAbilities = abilitiesIn or {} --TODO: use --abilityList-- settings table instead
-	newXp = xpIn or 0
-	newLevel = 1 or levelIn
+	displayName = input.settings.monlist[name].displayName
+	img = love.graphics.newImage(imgpath .. name .. "." .. filetype)
+	abilities = input.abilities or {} --TODO: use --abilityList-- settings table instead
+	xp = input.xp or 0
+	level = input.level or 1
+	evolvesTo = monlist[name].evolvesTo
+	hp = monlist[name].maxHP
 
 	local mon = {
-		name=nameIn,
-		displayName=newDisplayName,
-		img=newImg,
-		abilities=newAbilities,
-		xp=newXp,
-		level=newLevel,
-		evolvesTo=monlist[nameIn].evolvesTo,
-		hp = monlist[nameIn].maxHP
+		name=name,
+		displayName=displayName,
+		img=img,
+		abilities=abilities,
+		xp=xp,
+		level=level,
+		evolvesTo=evolvesTo,
+		hp = hp
 	}
 
 	return mon
 end
 
-function mons.levelUp(monlist, oldMon, imgpath)
+function mons.levelUp(monlist, oldMon, imagepath)
 
 
---	local newDisplayName = monlist[oldMon.name].evolvesTo
---	newDisplayName = monlist[newDisplayName].displayname --TODO: This could probably be done better
-	newName = monlist[monlist[oldMon.name].evolvesTo].name
-	newDisplayName = monlist[newName].displayname
+	name = oldMon.evolvesTo
+	displayName = monlist[name].displayName
 	if not filetype then filetype = "png" end
-	local newImg = love.graphics.newImage(imgpath .. "/" .. monlist[oldMon.name].evolvesTo .. "." .. filetype)
-	newAbilities = oldMon.abilities
-	if xpIn then newXp=xpIn else newXp=0 end -- should be oldMon.xpNeeded - oldMon.xp or something, but we need xpNeeded somewhere
-	newLevel = oldMon.level + 1
+	local newImg = love.graphics.newImage(imagepath .. "/" .. name .. "." .. filetype)
+	abilities = oldMon.abilities -- TODO: Something more here
+	if xpIn then xp=xpIn else xp=0 end -- should be oldMon.xpNeeded - oldMon.xp or something, but we need xpNeeded somewhere
+	level = oldMon.level + 1
+	evolvesTo = monlist[name].evolvesTo
 
 	local newMon = {
-		name=newName,
-		displayName=newDisplayName,
+		name=name,
+		displayName=displayName,
 		img=newImg,
-		abilities=newAbilities,
-		xp=newXp,
-		level=newLevel,
-		evolvesTo=monlist[newName].evolvesTo
+		abilities=abilities,
+		xp=xp,
+		level=level,
+		evolvesTo=evolvesTo
 	}
 
-	if not monlist[oldMon.name].evolvesTo then newMon = oldMon end
+	if not oldMon.evolvesTo then 
+		newMon = oldMon
+		print("Mon not leveledUp: oldMon.evolvesTo is nil")
+	end
 
 	return newMon
 end
