@@ -60,9 +60,11 @@ function love.update(dt)
 	if love.keyboard.isDown("left") then player.x = player.x - player.speed*dt end
 
 	if player.y + player.height > mapHeight then
-		maps.row = maps.row + 1
-		player.y = 0
-		tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
+		if maps.row+1 <= #maps.strings then
+			maps.row = maps.row + 1
+			player.y = 0
+			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
+		end
 	end
 	if player.y < 0 then
 		if maps.row ~= 1 then
@@ -72,9 +74,11 @@ function love.update(dt)
 		end
 	end
 	if player.x + player.width > mapWidth then
-		maps.column = maps.column + 1
-		player.x = 0
-		tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
+		if maps.column+1 <= #maps.strings then
+			maps.column = maps.column + 1
+			player.x = 0
+			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
+		end
 	end
 	if player.x < 0 then
 		if maps.column ~= 1 then 
@@ -87,11 +91,26 @@ function love.update(dt)
 	if love.timer.getTime() - stime > 2 and mons.redmon.evolvesTo then 
 		mons.redmon = YAPLGE.mons.levelUp(settings.monlist, mons.redmon, "graphics/mons")
 	end
-
+	--[[
+	Handle "falling off" the edges of the map and killing everyone.
+	Make sure it's *after* the map-screen jump section
+	--]]
+	if player.y < 0 then
+		player.y = 0
+	end
+	if player.y+player.height > mapHeight then
+		player.y = mapHeight - player.height
+	end
+	if player.x < 0 then
+		player.x = 0
+	end
+	if player.x+player.width > mapWidth then
+		player.x = mapWidth - player.width
+	end
 end
 
 function love.draw()
-	print(mons.redmon.level)
+--	print(mons.redmon.level)
 	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	
 	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)
