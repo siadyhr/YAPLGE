@@ -24,7 +24,6 @@ function love.load()
 	}
 
 	mons = {
---		redmon = YAPLGE.mons.newMon(monlist, "redmon", "graphics/mons/", {"boom", "boomboom"})
 		redmon = YAPLGE.mons.newMon{settings = settings, name = "redmon", abilities = {"boom", "boomboom"}, imagepath = settings.imagepath .. "/mons/" }
 	} 
 
@@ -48,11 +47,15 @@ function love.load()
 	YAPLGE.mons.attack(mons.redmon, mons.redmon, "boomboomboom", abilityList)
 end
 
+function getMapSize(settings,tileMapTable,scale)
+	mapWidth	= scale * #tileMapTable * settings.tileSizeX
+	mapHeight	= scale * #tileMapTable[1] * settings.tileSizeX
+end
+
 function love.update(dt)
-	deltatime = dt
-	atime = atime + dt
-	mapWidth	= scale * #tileMapTable[1] * settings.tileSizeX
-	mapHeight	= scale * #tileMapTable * settings.tileSizeX
+	deltatime = dt -- This seems unneeded
+	atime = atime + dt -- And also this ↑
+	getMapSize(settings,tileMapTable,scale)
 
 	if love.keyboard.isDown("up") then player.y = player.y - player.speed*dt end
 	if love.keyboard.isDown("down") then player.y = player.y + player.speed*dt end
@@ -60,7 +63,7 @@ function love.update(dt)
 	if love.keyboard.isDown("left") then player.x = player.x - player.speed*dt end
 
 	if player.y + player.height > mapHeight then
-		if maps.row+1 <= #maps.strings then
+		if maps.strings[maps.row+1] and maps.row+1 <= #maps.strings[maps.row+1] then -- Apparently the right expression isn't evaluated if the left isn't true
 			maps.row = maps.row + 1
 			player.y = 0
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
@@ -69,12 +72,13 @@ function love.update(dt)
 	if player.y < 0 then
 		if maps.row ~= 1 then
 			maps.row = maps.row - 1
-			player.y = mapHeight - player.height - 1
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
+			getMapSize(settings,tileMapTable,scale)
+			player.y = mapHeight - player.height - 1
 		end
 	end
 	if player.x + player.width > mapWidth then
-		if maps.column+1 <= #maps.strings then
+		if maps.column+1 <= #maps.strings[maps.row] then
 			maps.column = maps.column + 1
 			player.x = 0
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
@@ -83,8 +87,9 @@ function love.update(dt)
 	if player.x < 0 then
 		if maps.column ~= 1 then 
 			maps.column = maps.column - 1
-			player.x = mapWidth - player.width - 1 -- -1 since stuff seems to get confused
 			tileMapTable = YAPLGE.stringToTable(maps.strings[maps.strings[maps.row][maps.column]])
+			getMapSize(settings,tileMapTable,scale)
+			player.x = mapWidth - player.width - 1 -- -1 since stuff seems to get confused
 		end
 	end
 
