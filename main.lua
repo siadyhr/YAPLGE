@@ -27,7 +27,7 @@ function love.load()
 		redmon = YAPLGE.mons.newMon{settings = settings, name = "redmon", abilities = {"boom", "boomboom"}, imagepath = settings.imagepath .. "/mons/" }
 	} 
 
-	player.quadInfo = YAPLGE.import.simpleTileMap{file = settings.imagepath .. 'playeranim.png', settings, tileSizeX=32, tileSizeY=64}
+	player.quadInfo = YAPLGE.import.simpleTileMap{file = settings.imagepath .. 'playeranim.png', settings, tileSizeX=32, tileSizeY=32}
 	
 	player.width,player.height = player.image:getDimensions()
 	scale = 2
@@ -118,6 +118,6 @@ function love.draw()
 --	print(mons.redmon.level)
 	YAPLGE.graphics.table(tileMap, tileMapTable, 16, quadInfo, 0,0, scale)
 	
-	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.1), player.x, player.y)
+	love.graphics.draw(player.animationImage, YAPLGE.graphics.animate(player.quadInfo, love.timer.getTime(), 0.5), player.x, player.y)
 	love.graphics.draw(mons.redmon.img)
 end

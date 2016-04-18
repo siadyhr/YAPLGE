@@ -36,8 +36,8 @@ function mons.levelUp(monlist, oldMon, imagepath)
 	displayName = monlist[name].displayName
 	if not filetype then filetype = "png" end
 	local newImg = love.graphics.newImage(imagepath .. "/" .. name .. "." .. filetype)
-	abilities = oldMon.abilities -- TODO: Something more here
-	if xpIn then xp=xpIn else xp=0 end -- should be oldMon.xpNeeded - oldMon.xp or something, but we need xpNeeded somewhere
+	abilities = oldMon.abilities		-- TODO: Something more here
+	if xpIn then xp=xpIn else xp=0 end	-- should be oldMon.xpNeeded - oldMon.xp or something, but we need xpNeeded somewhere
 	level = oldMon.level + 1
 	evolvesTo = monlist[name].evolvesTo
 

@@ -7,7 +7,7 @@ function import.TileMap(settings)
 	Converts an image file with a translation table
 	into a table containing { translation, x, y}
 	--]]
-	local tileMap = love.graphics.newImage(settings.file) or love.graphics.newImage(settings.settings.file)--TODO: optimization, so we can use imported images instead of files here
+	local tileMap = love.graphics.newImage(settings.file) or love.graphics.newImage(settings.settings.file) --TODO: optimization, so we can use imported images instead of files here
 	local quads = {}
 	local realQuadInfo   = {}
 	local width, height = tileMap:getDimensions()
@@ -15,7 +15,7 @@ function import.TileMap(settings)
 	tileSizeX = settings.tileSizeX or settings.settings.tileSizeX
 	tileSizeY = settings.tileSizeY or settings.settings.tileSizeY
 
-	quadsH = width/tileSizeX		-- Number of horisontal quads
+	quadsH = width/tileSizeX	-- Number of horisontal quads
 	quadsV = height/tileSizeY	-- Number of vertical quads
 
 	for i = 1, quadsV*quadsH do

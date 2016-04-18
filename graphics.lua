@@ -2,7 +2,7 @@ local graphics = {
 }
 
 
-function graphics.table(image, stringTable, tileSize, hund, startX, startY, scale)
+function graphics.table(image, stringTable, tileSize, quadInfo, startX, startY, scale)
 	startX = startX or 0
 	startY = startY or 0
 	scale = scale or settings.scale or 1
@@ -10,7 +10,7 @@ function graphics.table(image, stringTable, tileSize, hund, startX, startY, scal
 	for i,column in ipairs(stringTable) do
 		for j,char in ipairs(column) do
 			local x,y = (i-1)*tileSize*2*scale, (j-1)*tileSize*2*scale
-			love.graphics.draw(image, hund[char], x,y, 0, scale) -- TODO: Why is *2 needed? It probably has something to do with how löve.graphics's scale thingy works…
+			love.graphics.draw(image, quadInfo[char], x,y, 0, scale) -- TODO: Why is *2 needed? It probably has something to do with how löve.graphics's scale thingy works…
 		end
 	end
 end
@@ -18,7 +18,6 @@ end
 function graphics.notify(text,duration,dt,key)
 	time = time+dt
 	stringLength=stringLength or 0
---	localtext=localtext
 	if time > stringLength * duration/string.len(text) then
 		stringLength = stringLength + 1
 	end
@@ -34,8 +33,15 @@ function graphics.notify(text,duration,dt,key)
 end
 
 function graphics.animate(quadInfo, nowTime, diffTime)
-	-- imageFile, table from YAPLGE.import.simpleTileMap, time between updates in seconds
-	currentImage = quadInfo[math.floor(nowTime/diffTime % 4 + 1)]
+	--[[
+	 quadInfo: imageFile table from YAPLGE.import.simpleTileMap
+	 nowTime: What the time is
+	 diffTime: Timebetween updates in seconds
+	 returns a quad from the quadInfo table
+	 
+	 Technically it just returns elements of quadInfo one by one
+	--]]
+	currentImage = quadInfo[math.floor(nowTime/diffTime % #quadInfo + 1)]
 	return(currentImage)
 end
 
